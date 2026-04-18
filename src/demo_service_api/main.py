@@ -11,8 +11,12 @@ def create_app() -> Flask:
     def index() -> tuple[object, int]:
         return jsonify({"message": "hello world from demo-service-api"}), 200
 
-    @app.get("/health")
-    def health() -> tuple[object, int]:
+    @app.get("/healthz")
+    def healthz() -> tuple[object, int]:
+        return jsonify({"service": "demo-service-api", "status": "ok"}), 200
+
+    @app.get("/readyz")
+    def readyz() -> tuple[object, int]:
         return jsonify({"service": "demo-service-api", "status": "ok"}), 200
 
     return app
@@ -23,7 +27,7 @@ app = create_app()
 
 def run() -> None:
     """Run the development server."""
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=8080)
 
 
 if __name__ == "__main__":
