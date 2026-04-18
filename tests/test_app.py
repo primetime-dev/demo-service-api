@@ -2,34 +2,32 @@
 
 import unittest
 
-from demo_service_api.main import build_response
+from demo_service_api.main import create_app
 
 
 class DemoServiceTests(unittest.TestCase):
     """Verify the demo service contract."""
 
+    def test_root_returns_service_specific_hello_world(self) -> None:
+        """The root endpoint returns a simple service-specific payload."""
+        client = create_app().test_client()
+
+        response = client.get("/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.get_json(),
+            {"message": "hello world from demo-service-api"},
+        )
+
     def test_health_returns_ok(self) -> None:
         """The golden-path service exposes a basic health endpoint."""
-        status_code, payload = build_response("/health")
+        client = create_app().test_client()
 
-        self.assertEqual(status_code, 200)
-        self.assertEqual(payload, {"service": "demo-service-api", "status": "ok"})
+        response = client.get("/health")
 
-    def test_demo_endpoint_describes_standardized_pipeline(self) -> None:
-        """The demo endpoint explains what the golden path standardizes."""
-        status_code, payload = build_response("/demo")
-
-        self.assertEqual(status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            payload,
-            {
-                "deploy_on_merge": True,
-                "pipeline": [
-                    "lint-hooks",
-                    "sast",
-                    "test-hooks",
-                    "policy-management",
-                    "build-hooks",
-                ],
-            },
+            response.get_json(),
+            {"service": "demo-service-api", "status": "ok"},
         )

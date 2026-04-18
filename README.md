@@ -11,10 +11,40 @@ Golden-path showcase service. This repo consumes the shared workflow from the or
 - Build the image: `docker build -t demo-service-api:dev .`
 - Apply manifests: `kubectl apply -f k8s/`
 
+## Quick Start
+
+Start the service directly:
+
+```bash
+uv sync --frozen
+PYTHONPATH=src uv run --frozen python -m demo_service_api.main
+```
+
+In another terminal, verify it is serving traffic:
+
+```bash
+curl http://127.0.0.1:8000/
+curl http://127.0.0.1:8000/health
+```
+
+Build and run the container:
+
+```bash
+docker build -t demo-service-api:dev .
+docker run --rm -p 8000:8000 demo-service-api:dev
+```
+
+Then verify the containerized service:
+
+```bash
+curl http://127.0.0.1:8000/
+curl http://127.0.0.1:8000/health
+```
+
 ## Endpoints
 
+- `GET /`
 - `GET /health`
-- `GET /demo`
 
 ## CI/CD Story
 
