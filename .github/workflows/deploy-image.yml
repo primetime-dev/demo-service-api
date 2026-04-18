@@ -1,0 +1,17 @@
+name: Deploy Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    uses: primetime-dev/.github/.github/workflows/docker-build-deploy.yml@main
+    with:
+      image-name: demo-service-api
+      deployment-name: demo-service-api
+      container-name: demo-service-api
+      namespace: demo-services
+    secrets:
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
