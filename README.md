@@ -16,8 +16,8 @@ Golden-path showcase service. This repo consumes the shared workflow from the or
 Start the service directly:
 
 ```bash
-uv sync --frozen
-PYTHONPATH=src uv run --frozen python -m demo_service_api.main
+uv sync
+PYTHONPATH=src uv run python -m demo_service_api.main
 ```
 
 In another terminal, verify it is serving traffic:
