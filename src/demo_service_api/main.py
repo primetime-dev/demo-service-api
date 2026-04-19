@@ -11,6 +11,10 @@ def create_app() -> Flask:
     def index() -> tuple[object, int]:
         return jsonify({"message": "hello world from demo-service-api"}), 200
 
+    @app.get("/test")
+    def new_endpoint() -> tuple[object, int]:
+        return jsonify({"service": "demo-service-api", "status": "ok"}), 200
+
     @app.get("/healthz")
     def healthz() -> tuple[object, int]:
         return jsonify({"service": "demo-service-api", "status": "ok"}), 200
